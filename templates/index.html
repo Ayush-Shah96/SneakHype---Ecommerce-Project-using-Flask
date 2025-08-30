@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 mb-4">Step Up Your Style</h1>
+        <p class="lead mb-4">Discover premium footwear from top brands. Comfort meets fashion in every step.</p>
+        <a href="#products" class="btn btn-light btn-lg">Shop Now</a>
+    </div>
+</section>
+
+<!-- Featured Categories -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Shop by Category</h2>
+        <div class="row">
+            {% for category in categories %}
+            <div class="col-md-2 mb-3">
+                <a href="{{ url_for('category_products', category=category) }}" class="text-decoration-none">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-shoe-prints fa-3x mb-3 text-primary"></i>
+                            <h5 class="card-title">{{ category }}</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products -->
+<section class="py-5 bg-light" id="products">
+    <div class="container">
+        <h2 class="text-center mb-5">Featured Products</h2>
+        <div class="row">
+            {% for product in products[:8] %}
+            <div class="col-md-3 mb-4">
+                <div class="card product-card h-100">
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <i class="fas fa-shoe-prints fa-4x text-muted"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text text-muted">{{ product.brand }}</p>
+                        <p class="card-text"><small>Size: {{ product.size }} | Color: {{ product.color }}</small></p>
+                        <h6 class="text-primary">${{ "%.2f"|format(product.price) }}</h6>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn btn-outline-primary btn-sm">
+                                View Details
+                            </a>
+                            <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-cart-plus"></i> Add to Cart
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

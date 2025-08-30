@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results - StepUp{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-search"></i> Search Results</h2>
+        <small class="text-muted">{{ products|length }} results for "{{ query }}"</small>
+    </div>
+
+    {% if products %}
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-3 mb-4">
+            <div class="card product-card h-100">
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                    <i class="fas fa-shoe-prints fa-4x text-muted"></i>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text text-muted">{{ product.brand }}</p>
+                    <p class="card-text"><small>Size: {{ product.size }} | Color: {{ product.color }}</small></p>
+                    <h6 class="text-primary">${{ "%.2f"|format(product.price) }}</h6>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn btn-outline-primary btn-sm">
+                            View Details
+                        </a>
+                        <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-search fa-5x text-muted mb-3"></i>
+        <h4>No results found for "{{ query }}"</h4>
+        <p class="text-muted">Try searching with different keywords or browse our categories</p>
+        <a href="{{ url_for('index') }}" class="btn btn-primary">Browse All Products</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
